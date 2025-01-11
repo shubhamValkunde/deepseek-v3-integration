@@ -1,0 +1,4 @@
+textract
+streamlit
+requests
+python-decouple
