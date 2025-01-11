@@ -84,25 +84,32 @@ task_type = st.sidebar.selectbox(
     "Select Task Type",
     [
         "Normal Questions",
-        "Coding Questions",
+        "Coding/Math Questions",
         "Computational Tasks",
-        "Creative Tasks",
+        "Creative Tasks/Poetry",
         "File Questions",
+        "Data Cleaning/Data Analysis",
+        "General Conversation",
+        "Translation",
     ],
     index=1,  # Default to "Normal Questions"
 )
 
 # Set temperature based on task type
-if task_type == "File Questions":
+if task_type == "Coding/Math Questions":
+    temperature = 0.0
+elif task_type == "Normal Questions":
+    temperature = 0.6
+elif task_type == "File Questions":
     temperature = 0.1
 elif task_type == "Computational Tasks":
     temperature = 0.2
-elif task_type == "Coding Questions":
-    temperature = 0.3
-elif task_type == "Normal Questions":
-    temperature = 0.6
-elif task_type == "Creative Tasks":
-    temperature = 0.8
+elif task_type == "Data Cleaning/Data Analysis":
+    temperature = 1.0
+elif task_type in ["General Conversation", "Translation"]:
+    temperature = 1.3
+elif task_type == "Creative Tasks/Poetry":
+    temperature = 1.5
 
 # Display the selected temperature
 st.sidebar.write(f"Selected Temperature: {temperature}")
