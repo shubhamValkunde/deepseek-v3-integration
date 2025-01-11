@@ -67,7 +67,7 @@ def read_file(file):
 
 
 # Streamlit UI
-st.title("Document Chat Interface")
+st.title("My Own GPT powering DeepSeek model")
 
 # Sidebar settings for default prompt
 st.sidebar.title("Settings")
