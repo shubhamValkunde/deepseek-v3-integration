@@ -20,11 +20,17 @@ if "file_context" not in st.session_state:
 if "default_prompt" not in st.session_state:
     st.session_state["default_prompt"] = ""
 
+if "temperature" not in st.session_state:
+    st.session_state["temperature"] = 0
 
-def call_deepseek_api(messages, streaming=True):
+
+def call_deepseek_api(messages, streaming=True, temperature=None):
     try:
         response = client.chat.completions.create(
-            model="deepseek-chat", messages=messages, stream=streaming
+            model="deepseek-chat",
+            messages=messages,
+            stream=streaming,
+            temperature=temperature,
         )
         return response
     except Exception as err:
@@ -73,6 +79,34 @@ if st.sidebar.button("Save Default Prompt"):
 if st.sidebar.button("Clear Default Prompt"):
     st.session_state["default_prompt"] = ""
 
+
+task_type = st.sidebar.selectbox(
+    "Select Task Type",
+    [
+        "Normal Questions",
+        "Coding Questions",
+        "Computational Tasks",
+        "Creative Tasks",
+        "File Questions",
+    ],
+    index=1,  # Default to "Normal Questions"
+)
+
+# Set temperature based on task type
+if task_type == "File Questions":
+    temperature = 0.1
+elif task_type == "Computational Tasks":
+    temperature = 0.2
+elif task_type == "Coding Questions":
+    temperature = 0.3
+elif task_type == "Normal Questions":
+    temperature = 0.6
+elif task_type == "Creative Tasks":
+    temperature = 0.8
+
+# Display the selected temperature
+st.sidebar.write(f"Selected Temperature: {temperature}")
+
 # File upload section
 uploaded_file = st.file_uploader("Upload a file", type=["pdf", "docx", "txt"])
 if uploaded_file is not None:
@@ -110,7 +144,9 @@ if st.button("Submit"):
                 {"role": "user", "content": user_input},
             ]
 
-            response = call_deepseek_api(messages=messages)  # streamin default to True
+            response = call_deepseek_api(
+                messages=messages, temperature=st.session_state["temperature"]
+            )  # streaming default to True
 
             if response:
                 reply_container = st.empty()
