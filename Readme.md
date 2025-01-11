@@ -36,3 +36,20 @@ A **Streamlit-based web application** that allows users to interact with documen
 1. Clone the repository:
    ```bash
    git clone git@github.com:ragasimger/my-own-gpt.git
+
+2. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+3. Set up your .env file with your DeepSeek API key::
+    ```bash
+    touch .env
+
+4.  Open the `.env` file and add your DeepSeek API key:
+
+    ```bash
+    DEEPSEEK_API_KEY=your_api_key_here
+
+5. Run the Streamlit app:
+    ```bash
+    streamlit run main.py
+
