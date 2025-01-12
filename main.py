@@ -146,10 +146,13 @@ if st.button("Submit"):
                     file_context = file_context[:5000] + "... (truncated)"
                 system_content += f"\n\nFile Context:\n{file_context}"
 
-            messages = [
-                {"role": "system", "content": system_content},
-                {"role": "user", "content": user_input},
-            ]
+            # Include the chat history in the messages
+            messages = [{"role": "system", "content": system_content}]
+            for message in st.session_state["chat_history"]:
+                messages.append(
+                    {"role": message["role"], "content": message["content"]}
+                )
+            messages.append({"role": "user", "content": user_input})
 
             response = call_deepseek_api(
                 messages=messages, temperature=st.session_state["temperature"]
